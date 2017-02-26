@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
   <Identity Name="58714MarianDolinsk.FF-Casovac" Publisher="CN=25AB577D-CD73-454E-B3F3-D78D41E3AFFA" Version="1.0.2.0" />
-  <mp:PhoneIdentity PhoneProductId="9211cd12-ac39-49f9-9e7a-a59da434098e" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <mp:PhoneIdentity PhoneProductId="7fed5b4e-52e1-44ab-b097-07e41bf8da19" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>FF Časovač</DisplayName>
     <PublisherDisplayName>Marian Dolinský</PublisherDisplayName>
@@ -14,8 +14,8 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="FF_Časovač.App">
-      <uap:VisualElements DisplayName="FF Časovač" Square150x150Logo="Assets\Icons\Square150x150Logo.png" Square44x44Logo="Assets\Icons\Square44x44Logo.png" Description="FF Časovač" BackgroundColor="transparent">
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="FF_Casovac.App">
+      <uap:VisualElements DisplayName="FF Časovač" Square150x150Logo="Assets\Icons\Square150x150Logo.png" Square44x44Logo="Assets\Icons\Square44x44Logo.png" Description="FF-Casovac" BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Icons\Wide310x150Logo.png" Square310x310Logo="Assets\Icons\LargeTile.png" Square71x71Logo="Assets\Icons\SmallTile.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />

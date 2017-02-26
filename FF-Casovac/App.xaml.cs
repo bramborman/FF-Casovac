@@ -7,7 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace FF_Časovač
+namespace FF_Casovac
 {
     public sealed partial class App : Application
     {

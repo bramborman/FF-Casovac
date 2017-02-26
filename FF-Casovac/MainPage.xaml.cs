@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace FF_Časovač
+namespace FF_Casovac
 {
     public sealed partial class MainPage : Page
     {

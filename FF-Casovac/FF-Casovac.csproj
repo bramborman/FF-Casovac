@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{4DB7E338-650F-4B35-A756-9D525DD23D2F}</ProjectGuid>
+    <ProjectGuid>{B0FF4148-DDF3-4BEC-BA32-09CE0B2B37CB}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FF_Časovač</RootNamespace>
-    <AssemblyName>FF Časovač</AssemblyName>
+    <RootNamespace>FF_Casovac</RootNamespace>
+    <AssemblyName>FF-Casovac</AssemblyName>
     <DefaultLanguage>cs-CZ</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
@@ -17,11 +17,8 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <PackageCertificateKeyFile>FF Časovač_StoreKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>EA5969B368F91DB4AF44FEBA6C9571EAED6340EE</PackageCertificateThumbprint>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <PackageCertificateKeyFile>FF-Casovac_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>C9F015457F8341DA20D23235AF0AA3E220E2E0E6</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -94,7 +91,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="FF Časovač_StoreKey.pfx" />
+    <None Include="FF-Casovac_StoreKey.pfx" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -112,7 +109,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Assets\AppLogo.png" />
     <Content Include="Assets\Beep.mp3" />
     <Content Include="Assets\FF Logo.jpg" />
     <Content Include="Assets\Gong.mp3" />
@@ -161,7 +158,6 @@
     <Content Include="Assets\Icons\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Icons\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Icons\Wide310x150Logo.scale-400.png" />
-    <Content Include="Assets\AppLogo.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
