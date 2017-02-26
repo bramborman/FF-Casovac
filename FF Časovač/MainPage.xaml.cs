@@ -5,10 +5,12 @@ using UWPHelper.Utilities;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace FF_Časovač
@@ -115,7 +117,7 @@ namespace FF_Časovač
 
         private async void SwitchInitializationUI()
         {
-            if (Bo_Initialization.Visibility == Visibility.Visible)
+            if (Bo_InitializationUI.Visibility == Visibility.Visible)
             {
                 time = TP_Input.Time;
 
@@ -124,7 +126,7 @@ namespace FF_Časovač
                 systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
                 systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
 
-                Bo_Initialization.Visibility = Visibility.Collapsed;
+                Bo_InitializationUI.Visibility = Visibility.Collapsed;
                 timer.Start();
             }
             else
@@ -153,9 +155,25 @@ namespace FF_Časovač
                     systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
                     systemNavigationManager.BackRequested -= SystemNavigationManager_BackRequested;
 
-                    Bo_Initialization.Visibility = Visibility.Visible;
+                    Bo_InitializationUI.Visibility = Visibility.Visible;
                 }
             }
+        }
+
+        private async void AboutAppDialog(object sender, RoutedEventArgs e)
+        {
+            //TODO: App is crashing when opening 3rd party licenses
+            await new AdvancedContentDialog
+            {
+                Background = new SolidColorBrush(Colors.Black),
+                Content = new AboutApp
+                {
+                    AppStoreId          = "9n2kkzgfn9ks",
+                    AppUri              = "md-ff-casovac:",
+                    AppDeveloperMail    = "mariandolinsky@outlook.com"
+                },
+                SecondaryButtonText = "Zavřít"
+            }.ShowAsync();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace FF_Časovač
             Suspending += OnSuspending;
         }
 
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override void OnActivated(IActivatedEventArgs args)
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -27,19 +27,27 @@ namespace FF_Časovač
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 Window.Current.Content = rootFrame;
+
                 DisplayRequestHelper.IsActive = true;
                 ApplicationView.GetForCurrentView().FullScreenSystemOverlayMode = FullScreenSystemOverlayMode.Minimal;
             }
 
-            if (!e.PrelaunchActivated)
+            LaunchActivatedEventArgs launchArgs = args as LaunchActivatedEventArgs;
+
+            if (launchArgs?.PrelaunchActivated != true)
             {
                 if (rootFrame.Content == null)
                 {
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    rootFrame.Navigate(typeof(MainPage), launchArgs?.Arguments);
                 }
-                
+
                 Window.Current.Activate();
             }
+        }
+
+        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        {
+            OnActivated(e);
         }
 
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)

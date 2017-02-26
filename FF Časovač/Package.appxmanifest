@@ -25,6 +25,14 @@
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\Icons\SplashScreen.png" BackgroundColor="transparent" />
       </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="ff-casovac" />
+        </uap:Extension>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="md-ff-casovac" />
+        </uap:Extension>
+      </Extensions>
     </Application>
   </Applications>
 </Package>
