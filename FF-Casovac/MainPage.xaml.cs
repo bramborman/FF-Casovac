@@ -5,12 +5,10 @@ using UWPHelper.Utilities;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace FF_Casovac
@@ -160,20 +158,18 @@ namespace FF_Casovac
             }
         }
 
-        private async void AboutAppDialog(object sender, RoutedEventArgs e)
+        private async void ShowAboutAppDialogAsync(object sender, RoutedEventArgs e)
         {
-            //TODO: App is crashing when opening 3rd party licenses
-            await new AdvancedContentDialog
-            {
-                Background = new SolidColorBrush(Colors.Black),
-                Content = new AboutApp
-                {
-                    AppStoreId          = "9n2kkzgfn9ks",
-                    AppUri              = "md-ff-casovac:",
-                    AppDeveloperMail    = "mariandolinsky@outlook.com"
-                },
-                SecondaryButtonText = "Zavřít"
-            }.ShowAsync();
+            AboutAppDialog aboutAppDialog = new AboutAppDialog();
+
+            aboutAppDialog.AboutApp.AppStoreId          = "9n2kkzgfn9ks";
+            aboutAppDialog.AboutApp.AppUri              = "md-ff-casovac:";
+            aboutAppDialog.AboutApp.AppDeveloperMail    = "mariandolinsky@outlook.com";
+            aboutAppDialog.AboutApp.IsGitHubLinkEnabled = true;
+            aboutAppDialog.AboutApp.GitHubProjectName   = "FF Časovač";
+            aboutAppDialog.AboutApp.GitHubLinkUrl       = "https://github.com/bramborman/FF-Casovac";
+
+            await aboutAppDialog.ShowAsync();
         }
     }
 }

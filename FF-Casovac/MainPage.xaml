@@ -91,7 +91,7 @@
                 <Button Content="O APLIKACI"
                         HorizontalAlignment="Center"
                         FontWeight="SemiBold"
-                        Click="AboutAppDialog"
+                        Click="ShowAboutAppDialogAsync"
                         />
             </StackPanel>
         </Border>
