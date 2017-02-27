@@ -140,6 +140,7 @@ namespace FF_Casovac
                 if (await dialog.ShowAsync() == ContentDialogResult.Primary)
                 {
                     timer.Stop();
+                    Sb_Blinking.Stop();
 
                     if (time < TimeSpan.Zero)
                     {
