@@ -77,22 +77,36 @@
                             />
                 </StackPanel>
 
-                <TextBlock TextWrapping="WrapWholeWords"
-                           TextAlignment="Center"
+                <TextBlock TextAlignment="Center"
                            HorizontalAlignment="Center"
                            Style="{StaticResource DescriptionTextBlock}"
-                           Margin="{StaticResource TextBlockGapMargin}"
+                           Margin="{StaticResource DescriptionGapBottomMargin}"
                            >
                     Po spuštění časovače se aplikace přepne do režimu celé obrazovky
                     <LineBreak/>
                     Pro manuální přepnutí režimu celé obrazovky použijte klávesu F11
                 </TextBlock>
+
+                <CheckBox x:Name="CB_EnableTimerStopping"
+                          Content="Povolit zastavení časovače tlačítkem zpět"
+                          IsChecked="True"
+                          HorizontalAlignment="Center"
+                          Margin="{StaticResource CheckBoxGapMargin}"
+                          />
                 
                 <Button Content="O APLIKACI"
                         HorizontalAlignment="Center"
                         FontWeight="SemiBold"
+                        Margin="{StaticResource DescriptionGapBottomMargin}"
                         Click="ShowAboutAppDialogAsync"
                         />
+
+                <TextBlock TextAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Style="{StaticResource DescriptionTextBlock}"
+                           >
+                    &#x00A9; 2017 Marian Dolinský
+                </TextBlock>
             </StackPanel>
         </Border>
     </Grid>

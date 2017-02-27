@@ -23,6 +23,14 @@ namespace FF_Casovac
 
         private TimeSpan time;
 
+        private bool IsTimerStoppingEnabled
+        {
+            get
+            {
+                return Convert.ToBoolean(CB_EnableTimerStopping.IsChecked);
+            }
+        }
+
         public MainPage()
         {
             InitializeSoundAsset(gongSound, "Gong.mp3");
@@ -110,7 +118,11 @@ namespace FF_Casovac
         private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
         {
             e.Handled = true;
-            SwitchInitializationUI();
+
+            if (IsTimerStoppingEnabled)
+            {
+                SwitchInitializationUI();
+            }
         }
 
         private async void SwitchInitializationUI()
@@ -118,17 +130,21 @@ namespace FF_Casovac
             if (Bo_InitializationUI.Visibility == Visibility.Visible)
             {
                 time = TP_Input.Time;
-
                 ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
-
                 systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
-                systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+
+                if (IsTimerStoppingEnabled)
+                {
+                    systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                }
 
                 Bo_InitializationUI.Visibility = Visibility.Collapsed;
                 timer.Start();
             }
             else
             {
+                ApplicationView.GetForCurrentView().ExitFullScreenMode();
+
                 AdvancedContentDialog dialog = new AdvancedContentDialog
                 {
                     Title               = "Přejete si pokračovat?",
@@ -137,7 +153,11 @@ namespace FF_Casovac
                     SecondaryButtonText = "Ne"
                 };
 
-                if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+                if (await dialog.ShowAsync() != ContentDialogResult.Primary)
+                {
+                    ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+                }
+                else
                 {
                     timer.Stop();
                     Sb_Blinking.Stop();
@@ -148,12 +168,9 @@ namespace FF_Casovac
                     }
 
                     TP_Input.Time = time;
-
-                    ApplicationView.GetForCurrentView().ExitFullScreenMode();
-
-                    systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
                     systemNavigationManager.BackRequested -= SystemNavigationManager_BackRequested;
-
+                    systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                    
                     Bo_InitializationUI.Visibility = Visibility.Visible;
                 }
             }
