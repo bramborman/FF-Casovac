@@ -79,8 +79,6 @@ namespace FF_Casovac
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            time -= TimeSpan.FromSeconds(1);
-
             if (gongTimeSpans.Any(t => time == t))
             {
                 gongSound.Play();
@@ -99,7 +97,7 @@ namespace FF_Casovac
             {
                 timer.Stop();
             }
-            else if (time < TimeSpan.Zero)
+            else if (time <= TimeSpan.Zero)
             {
                 timer.Stop();
                 return;
@@ -108,6 +106,8 @@ namespace FF_Casovac
             TB_Hours.Text   = time.Hours.ToString("D2");
             TB_Minutes.Text = time.Minutes.ToString("D2");
             TB_Seconds.Text = time.Seconds.ToString("D2");
+
+            time -= TimeSpan.FromSeconds(1);
         }
 
         private void Start(object sender, RoutedEventArgs e)
@@ -165,6 +165,10 @@ namespace FF_Casovac
                     if (time < TimeSpan.Zero)
                     {
                         time = TimeSpan.Zero;
+                    }
+                    else
+                    {
+                        time -= TimeSpan.FromSeconds(time.Seconds);
                     }
 
                     TP_Input.Time = time;
