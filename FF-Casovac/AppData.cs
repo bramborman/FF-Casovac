@@ -14,6 +14,11 @@ namespace FF_Casovac
 
         [JsonIgnore]
         public bool ShowLoadingError { get; set; }
+        public TimeSpan ActualTimeSpan
+        {
+            get { return (TimeSpan)GetValue(); }
+            set { SetValue(value); }
+        }
         public bool? IsAutomaticFullScreenModeEnabled
         {
             get { return (bool?)GetValue(); }
@@ -37,6 +42,7 @@ namespace FF_Casovac
         
         public AppData()
         {
+            RegisterProperty(nameof(ActualTimeSpan), typeof(TimeSpan), TimeSpan.Zero);
             RegisterProperty(nameof(IsAutomaticFullScreenModeEnabled), typeof(bool?), true);
             RegisterProperty(nameof(IsTimerStoppingEnabled), typeof(bool?), true);
             RegisterProperty(nameof(IsSoundEnabled), typeof(bool?), true);
@@ -63,7 +69,10 @@ namespace FF_Casovac
 
             Current.PropertyChanged += async (sender, e) =>
             {
-                await Current.SaveAsync();
+                if (e.PropertyName != nameof(ActualTimeSpan))
+                {
+                    await Current.SaveAsync();
+                }
             };
         }
     }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="58714MarianDolinsk.FF-Casovac" Publisher="CN=25AB577D-CD73-454E-B3F3-D78D41E3AFFA" Version="1.0.4.0" />
+  <Identity Name="58714MarianDolinsk.FF-Casovac" Publisher="CN=25AB577D-CD73-454E-B3F3-D78D41E3AFFA" Version="1.1.4.0" />
   <mp:PhoneIdentity PhoneProductId="7fed5b4e-52e1-44ab-b097-07e41bf8da19" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>FF Časovač</DisplayName>
@@ -27,10 +27,10 @@
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="ff-casovac" />
+          <uap:Protocol Name="md-ff-casovac" />
         </uap:Extension>
         <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="md-ff-casovac" />
+          <uap:Protocol Name="ff-casovac" />
         </uap:Extension>
       </Extensions>
     </Application>

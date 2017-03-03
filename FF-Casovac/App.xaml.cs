@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using UWPHelper.Utilities;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -12,6 +13,17 @@ namespace FF_Casovac
 {
     public sealed partial class App : Application
     {
+        private SystemNavigationManager systemNavigationManager;
+        private Frame rootFrame;
+
+        private bool CanGoBack
+        {
+            get
+            {
+                return rootFrame.CanGoBack && AppData.Current.IsTimerStoppingEnabled == true;
+            }
+        }
+
         public App()
         {
             InitializeComponent();
@@ -30,12 +42,16 @@ namespace FF_Casovac
                 loadAppDataTask = AppData.LoadAsync();
             }
 
-            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame = Window.Current.Content as Frame;
 
             if (rootFrame == null)
             {
                 rootFrame = new Frame();
+                rootFrame.Navigated += OnNavigated;
                 rootFrame.NavigationFailed += OnNavigationFailed;
+
+                systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+                systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
 
                 Window.Current.Content = rootFrame;
 
@@ -60,9 +76,24 @@ namespace FF_Casovac
                 Window.Current.Activate();
             }
         }
+
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             OnActivated(e);
+        }
+
+        private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (CanGoBack)
+            {
+                e.Handled = true;
+                rootFrame.GoBack();
+            }
+        }
+
+        private void OnNavigated(object sender, NavigationEventArgs e)
+        {
+            systemNavigationManager.AppViewBackButtonVisibility = CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
         }
 
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
