@@ -9,6 +9,8 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Documents;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace FF_Casovac
@@ -23,12 +25,9 @@ namespace FF_Casovac
 
         private TimeSpan time;
 
-        private bool IsTimerStoppingEnabled
+        private AppData AppData
         {
-            get
-            {
-                return Convert.ToBoolean(CB_EnableTimerStopping.IsChecked);
-            }
+            get { return AppData.Current; }
         }
 
         public MainPage()
@@ -51,41 +50,32 @@ namespace FF_Casovac
             mediaElement.SetSource(await file.OpenAsync(FileAccessMode.Read), "");
         }
 
-        private void KeyboardHelper_CoreKeyDown(CoreWindow sender, KeyEventArgs args)
+        private async void ShowAboutAppDialogAsync(Hyperlink sender, HyperlinkClickEventArgs args)
         {
-            if (args.Handled)
-            {
-                return;
-            }
+            AboutAppDialog aboutAppDialog = new AboutAppDialog();
 
-            switch (args.VirtualKey)
-            {
-                case VirtualKey.F11:
-                    args.Handled = true;
-                    ApplicationView applicationView = ApplicationView.GetForCurrentView();
+            aboutAppDialog.AboutApp.AppStoreId          = "9n2kkzgfn9ks";
+            aboutAppDialog.AboutApp.AppUri              = "md-ff-casovac:";
+            aboutAppDialog.AboutApp.AppDeveloperMail    = "mariandolinsky@outlook.com";
+            aboutAppDialog.AboutApp.IsGitHubLinkEnabled = true;
+            aboutAppDialog.AboutApp.GitHubProjectName   = "FF Časovač";
+            aboutAppDialog.AboutApp.GitHubLinkUrl       = "https://github.com/bramborman/FF-Casovac";
 
-                    if (applicationView.IsFullScreenMode)
-                    {
-                        applicationView.ExitFullScreenMode();
-                    }
-                    else
-                    {
-                        applicationView.TryEnterFullScreenMode();
-                    }
-
-                    break;
-            }
+            await aboutAppDialog.ShowAsync();
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (gongTimeSpans.Any(t => time == t))
+            if (AppData.IsSoundEnabled == true)
             {
-                gongSound.Play();
-            }
-            else if (time <= TimeSpan.FromSeconds(3))
-            {
-                beepSound.Play();
+                if (gongTimeSpans.Any(t => time == t))
+                {
+                    gongSound.Play();
+                }
+                else if (time <= TimeSpan.FromSeconds(3))
+                {
+                    beepSound.Play();
+                }
             }
 
             if (time <= gongTimeSpans[gongTimeSpans.Length - 2] && Sb_Blinking.GetCurrentState() == ClockState.Stopped)
@@ -115,25 +105,20 @@ namespace FF_Casovac
             SwitchInitializationUI();
         }
 
-        private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            e.Handled = true;
-
-            if (IsTimerStoppingEnabled)
-            {
-                SwitchInitializationUI();
-            }
-        }
-
         private async void SwitchInitializationUI()
         {
             if (Bo_InitializationUI.Visibility == Visibility.Visible)
             {
                 time = TP_Input.Time;
-                ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+
+                if (AppData.IsAutomaticFullScreenModeEnabled == true)
+                {
+                    ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+                }
+
                 systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
 
-                if (IsTimerStoppingEnabled)
+                if (AppData.IsTimerStoppingEnabled == true)
                 {
                     systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
                 }
@@ -155,7 +140,10 @@ namespace FF_Casovac
 
                 if (await dialog.ShowAsync() != ContentDialogResult.Primary)
                 {
-                    ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+                    if (AppData.IsAutomaticFullScreenModeEnabled == true)
+                    {
+                        ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+                    }
                 }
                 else
                 {
@@ -180,18 +168,49 @@ namespace FF_Casovac
             }
         }
 
-        private async void ShowAboutAppDialogAsync(object sender, RoutedEventArgs e)
+        private void SwitchFullScreenMode()
         {
-            AboutAppDialog aboutAppDialog = new AboutAppDialog();
+            ApplicationView applicationView = ApplicationView.GetForCurrentView();
 
-            aboutAppDialog.AboutApp.AppStoreId          = "9n2kkzgfn9ks";
-            aboutAppDialog.AboutApp.AppUri              = "md-ff-casovac:";
-            aboutAppDialog.AboutApp.AppDeveloperMail    = "mariandolinsky@outlook.com";
-            aboutAppDialog.AboutApp.IsGitHubLinkEnabled = true;
-            aboutAppDialog.AboutApp.GitHubProjectName   = "FF Časovač";
-            aboutAppDialog.AboutApp.GitHubLinkUrl       = "https://github.com/bramborman/FF-Casovac";
+            if (applicationView.IsFullScreenMode)
+            {
+                applicationView.ExitFullScreenMode();
+            }
+            else
+            {
+                applicationView.TryEnterFullScreenMode();
+            }
+        }
 
-            await aboutAppDialog.ShowAsync();
+        private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            e.Handled = true;
+
+            if (AppData.IsTimerStoppingEnabled == true)
+            {
+                SwitchInitializationUI();
+            }
+        }
+
+        private void KeyboardHelper_CoreKeyDown(CoreWindow sender, KeyEventArgs args)
+        {
+            if (args.Handled)
+            {
+                return;
+            }
+
+            switch (args.VirtualKey)
+            {
+                case VirtualKey.F11:
+                    args.Handled = true;
+                    SwitchFullScreenMode();
+                    break;
+            }
+        }
+
+        private void Page_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            SwitchFullScreenMode();
         }
     }
 }

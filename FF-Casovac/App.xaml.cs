@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using UWPHelper.Utilities;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -16,9 +17,19 @@ namespace FF_Casovac
             InitializeComponent();
             Suspending += OnSuspending;
         }
-
-        protected override void OnActivated(IActivatedEventArgs args)
+        
+#pragma warning disable IDE1006 // Naming Styles
+        protected override async void OnActivated(IActivatedEventArgs args)
+#pragma warning restore IDE1006 // Naming Styles
         {
+            bool loadAppData = AppData.Current == null;
+            Task loadAppDataTask = null;
+
+            if (loadAppData)
+            {
+                loadAppDataTask = AppData.LoadAsync();
+            }
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             if (rootFrame == null)
@@ -34,17 +45,21 @@ namespace FF_Casovac
 
             LaunchActivatedEventArgs launchArgs = args as LaunchActivatedEventArgs;
 
+            if (loadAppData)
+            {
+                await loadAppDataTask;
+            }
+
             if (launchArgs?.PrelaunchActivated != true)
             {
                 if (rootFrame.Content == null)
                 {
                     rootFrame.Navigate(typeof(MainPage), launchArgs?.Arguments);
                 }
-
+                
                 Window.Current.Activate();
             }
         }
-
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             OnActivated(e);
@@ -55,9 +70,13 @@ namespace FF_Casovac
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+#pragma warning disable IDE1006 // Naming Styles
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
+#pragma warning restore IDE1006 // Naming Styles
         {
-            var deferral = e.SuspendingOperation.GetDeferral();
+            SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
+
+            await AppData.Current.SaveAsync();
             deferral.Complete();
         }
     }

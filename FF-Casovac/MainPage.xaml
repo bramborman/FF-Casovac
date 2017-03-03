@@ -5,6 +5,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d"
       RequestedTheme="Light"
+      DoubleTapped="Page_DoubleTapped"
       >
     <Page.Resources>
         <Storyboard x:Name="Sb_Blinking"
@@ -62,7 +63,9 @@
                 RequestedTheme="Dark"
                 Grid.RowSpan="3"
                 >
-            <StackPanel VerticalAlignment="Center">
+            <StackPanel VerticalAlignment="Center"
+                        MaxWidth="{StaticResource ContentMaxWidth}"
+                        >
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -77,35 +80,33 @@
                             />
                 </StackPanel>
 
-                <TextBlock TextAlignment="Center"
-                           HorizontalAlignment="Center"
-                           Style="{StaticResource DescriptionTextBlock}"
-                           Margin="{StaticResource DescriptionGapBottomMargin}"
-                           >
-                    Po spuštění časovače se aplikace přepne do režimu celé obrazovky
-                    <LineBreak/>
-                    Pro manuální přepnutí režimu celé obrazovky použijte klávesu F11
-                </TextBlock>
+                <StackPanel HorizontalAlignment="Center">
+                    <CheckBox Content="Po spuštění přepnout do režimu celé obrazovky"
+                              IsChecked="{x:Bind AppData.IsAutomaticFullScreenModeEnabled, Mode=TwoWay}"
+                              />
+                    <CheckBox Content="Povolit zastavení časovače tlačítkem zpět"
+                              IsChecked="{x:Bind AppData.IsTimerStoppingEnabled, Mode=TwoWay}"
+                              />
 
-                <CheckBox x:Name="CB_EnableTimerStopping"
-                          Content="Povolit zastavení časovače tlačítkem zpět"
-                          IsChecked="True"
-                          HorizontalAlignment="Center"
-                          Margin="{StaticResource CheckBoxGapMargin}"
-                          />
-                
-                <Button Content="O APLIKACI"
-                        HorizontalAlignment="Center"
-                        FontWeight="SemiBold"
-                        Margin="{StaticResource DescriptionGapBottomMargin}"
-                        Click="ShowAboutAppDialogAsync"
-                        />
+                    <CheckBox Content="Povolit zvuky"
+                              IsChecked="{x:Bind AppData.IsSoundEnabled, Mode=TwoWay}"
+                              Margin="{StaticResource CheckBoxGapMargin}"
+                              />
+                    
+                    <TextBlock TextAlignment="Center"
+                               HorizontalAlignment="Center"
+                               Style="{StaticResource DescriptionTextBlock}"
+                               >
+                        Pro manuální přepnutí režimu celé obrazovky použijte klávesu F11
+                    </TextBlock>
+                </StackPanel>
 
                 <TextBlock TextAlignment="Center"
                            HorizontalAlignment="Center"
                            Style="{StaticResource DescriptionTextBlock}"
                            >
-                    &#x00A9; 2017 Marian Dolinský
+                    &#x00A9; 2017 Marian Dolinský |
+                    <Hyperlink UnderlineStyle="None" Click="ShowAboutAppDialogAsync">O aplikaci</Hyperlink>
                 </TextBlock>
             </StackPanel>
         </Border>
