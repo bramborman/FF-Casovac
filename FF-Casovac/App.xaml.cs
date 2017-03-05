@@ -54,8 +54,6 @@ namespace FF_Casovac
                 systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
 
                 Window.Current.Content = rootFrame;
-
-                DisplayRequestHelper.IsActive = true;
                 ApplicationView.GetForCurrentView().FullScreenSystemOverlayMode = FullScreenSystemOverlayMode.Minimal;
             }
 

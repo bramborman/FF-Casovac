@@ -34,11 +34,6 @@ namespace FF_Casovac
             get { return (bool?)GetValue(); }
             set { SetValue(value); }
         }
-        public bool SettingsExpanded
-        {
-            get { return (bool)GetValue(); }
-            set { SetValue(value); }
-        }
         
         public AppData()
         {
@@ -46,7 +41,6 @@ namespace FF_Casovac
             RegisterProperty(nameof(IsAutomaticFullScreenModeEnabled), typeof(bool?), true);
             RegisterProperty(nameof(IsTimerStoppingEnabled), typeof(bool?), true);
             RegisterProperty(nameof(IsSoundEnabled), typeof(bool?), true);
-            RegisterProperty(nameof(SettingsExpanded), typeof(bool), true);
         }
 
         public Task SaveAsync()

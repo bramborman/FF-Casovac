@@ -51,6 +51,7 @@ namespace FF_Casovac
 
         private void Start(object sender, RoutedEventArgs e)
         {
+            AppData.ActualTimeSpan = TP_Time.Time;
             Frame.Navigate(typeof(Timer));
         }
     }

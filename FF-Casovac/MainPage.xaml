@@ -15,7 +15,9 @@
                         VerticalAlignment="Center"
                         Margin="{StaticResource PanelGapMargin}"
                         >
-                <TimePicker Time="{x:Bind AppData.ActualTimeSpan, Mode=TwoWay}"/>
+                <TimePicker x:Name="TP_Time"
+                            Time="{x:Bind AppData.ActualTimeSpan, Mode=OneWay}"
+                            />
                 
                 <Button Content="SPUSTIT"
                         FontWeight="SemiBold"

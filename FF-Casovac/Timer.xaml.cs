@@ -85,7 +85,8 @@ namespace FF_Casovac
         {
             base.OnNavigatedTo(e);
             cancelGoingBack = true;
-            
+            DisplayRequestHelper.IsActive = true;
+
             if (AppData.IsAutomaticFullScreenModeEnabled == true)
             {
                 applicationView.TryEnterFullScreenMode();
@@ -126,6 +127,8 @@ namespace FF_Casovac
                 return;
             }
 
+
+            DisplayRequestHelper.IsActive = false;
 
             timer.Stop();
             Sb_Blinking.Stop();
