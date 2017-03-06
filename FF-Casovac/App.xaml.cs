@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using UWPHelper.Utilities;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -13,8 +13,13 @@ namespace FF_Casovac
 {
     public sealed partial class App : Application
     {
+        public static new App Current { get; private set; }
+
         private SystemNavigationManager systemNavigationManager;
         private Frame rootFrame;
+
+        public MediaElement GongSound { get; private set; }
+        public MediaElement BeepSound { get; private set; }
 
         private bool CanGoBack
         {
@@ -26,20 +31,47 @@ namespace FF_Casovac
 
         public App()
         {
+            Current = this;
+
             InitializeComponent();
             Suspending += OnSuspending;
+        }
+        
+        private async Task<MediaElement> InitializeMediaElement(string fileName)
+        {
+            MediaElement output  = new MediaElement { AutoPlay = false };
+
+            StorageFolder folder = await Package.Current.InstalledLocation.GetFolderAsync("Assets");
+            StorageFile file     = await folder.GetFileAsync(fileName + ".mp3");
+            output.SetSource(await file.OpenAsync(FileAccessMode.Read), "audio/mpeg");
+
+            return output;
         }
         
 #pragma warning disable IDE1006 // Naming Styles
         protected override async void OnActivated(IActivatedEventArgs args)
 #pragma warning restore IDE1006 // Naming Styles
         {
-            bool loadAppData = AppData.Current == null;
-            Task loadAppDataTask = null;
+            bool loadAppData                        = AppData.Current == null;
+            bool loadGongSound                      = GongSound == null;
+            bool loadBeepSound                      = BeepSound == null;
+            Task loadAppDataTask                    = null;
+            Task<MediaElement> loadGongSoundTask    = null;
+            Task<MediaElement> loadBeepSoundTask    = null;
 
             if (loadAppData)
             {
                 loadAppDataTask = AppData.LoadAsync();
+            }
+
+            if (loadGongSound)
+            {
+                loadGongSoundTask = InitializeMediaElement("Gong");
+            }
+
+            if (loadBeepSound)
+            {
+                loadBeepSoundTask = InitializeMediaElement("Beep");
             }
 
             rootFrame = Window.Current.Content as Frame;
@@ -62,6 +94,18 @@ namespace FF_Casovac
             if (loadAppData)
             {
                 await loadAppDataTask;
+            }
+
+            if (loadGongSound)
+            {
+                GongSound = await loadGongSoundTask;
+                GongSound.Volume = 1.0;
+            }
+
+            if (loadBeepSound)
+            {
+                BeepSound = await loadBeepSoundTask;
+                BeepSound.Volume = 0.2;
             }
 
             if (launchArgs?.PrelaunchActivated != true)

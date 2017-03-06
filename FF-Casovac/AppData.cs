@@ -26,7 +26,7 @@ namespace FF_Casovac
         }
         public bool? IsTimerStoppingEnabled
         {
-            get { return (bool)GetValue(); }
+            get { return (bool?)GetValue(); }
             set { SetValue(value); }
         }
         public bool? IsSoundEnabled
