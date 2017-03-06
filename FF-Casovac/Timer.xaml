@@ -44,11 +44,11 @@
                     </Style>
                 </StackPanel.Resources>
 
-                <TextBlock x:Name="TB_Hours" Text="00" Width="17"/>
+                <TextBlock x:Name="TB_Hours" Text="00" TextAlignment="Right" Width="17"/>
                 <TextBlock x:Name="TB_Colon1" Text=":" FontSize="14"/>
-                <TextBlock x:Name="TB_Minutes" Text="00" Width="17"/>
+                <TextBlock x:Name="TB_Minutes" Text="00" TextAlignment="Center" Width="17"/>
                 <TextBlock x:Name="TB_Colon2" Text=":" FontSize="14"/>
-                <TextBlock x:Name="TB_Seconds" Text="00" Width="17"/>
+                <TextBlock x:Name="TB_Seconds" Text="00" TextAlignment="Left" Width="17"/>
             </StackPanel>
         </Viewbox>
 

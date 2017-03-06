@@ -126,6 +126,12 @@ namespace FF_Casovac
 
         private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
         {
+            // Prevent switching to another app on phones
+            if (rootFrame.Content.GetType() == typeof(Timer))
+            {
+                e.Handled = true;
+            }
+
             if (CanGoBack)
             {
                 e.Handled = true;
