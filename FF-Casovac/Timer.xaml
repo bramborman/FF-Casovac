@@ -1,0 +1,61 @@
+﻿<local:PageBase x:Class="FF_Casovac.Timer"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:local="using:FF_Casovac"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                mc:Ignorable="d"
+                RequestedTheme="Light"
+                >
+    <local:PageBase.Resources>
+        <Storyboard x:Name="Sb_Blinking"
+                    BeginTime="0:0:0"
+                    RepeatBehavior="Forever" 
+                    TargetProperty="(Foreground).(SolidColorBrush.Color)"
+                    >
+            <ColorAnimation Storyboard.TargetName="TB_Hours"   From="Black" To="Red" Duration="0:0:0.5" AutoReverse="True"/>
+            <ColorAnimation Storyboard.TargetName="TB_Colon1"  From="Black" To="Red" Duration="0:0:0.5" AutoReverse="True"/>
+            <ColorAnimation Storyboard.TargetName="TB_Minutes" From="Black" To="Red" Duration="0:0:0.5" AutoReverse="True"/>
+            <ColorAnimation Storyboard.TargetName="TB_Colon2"  From="Black" To="Red" Duration="0:0:0.5" AutoReverse="True"/>
+            <ColorAnimation Storyboard.TargetName="TB_Seconds" From="Black" To="Red" Duration="0:0:0.5" AutoReverse="True"/>
+        </Storyboard>
+    </local:PageBase.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Viewbox Margin="60">
+            <TextBlock Text="ZBÝVÁ"
+                       FontWeight="SemiBold"
+                       />
+        </Viewbox>
+        
+        <Viewbox Margin="30,0"
+                 Grid.Row="1"
+                 >
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                    </Style>
+                </StackPanel.Resources>
+
+                <TextBlock x:Name="TB_Hours" Text="00" TextAlignment="Right" Width="17"/>
+                <TextBlock x:Name="TB_Colon1" Text=":" FontSize="14"/>
+                <TextBlock x:Name="TB_Minutes" Text="00" TextAlignment="Center" Width="17"/>
+                <TextBlock x:Name="TB_Colon2" Text=":" FontSize="14"/>
+                <TextBlock x:Name="TB_Seconds" Text="00" TextAlignment="Left" Width="17"/>
+            </StackPanel>
+        </Viewbox>
+
+        <Image Source="Assets/FF Logo.jpg"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Stretch"
+               Grid.Row="2"
+               />
+    </Grid>
+</local:PageBase>

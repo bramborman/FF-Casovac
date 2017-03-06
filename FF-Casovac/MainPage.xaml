@@ -1,113 +1,59 @@
-﻿<Page x:Class="FF_Casovac.MainPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d"
-      RequestedTheme="Light"
-      >
-    <Page.Resources>
-        <Storyboard x:Name="Sb_Blinking"
-                    BeginTime="0:0:0"
-                    RepeatBehavior="Forever" 
-                    TargetProperty="(Foreground).(SolidColorBrush.Color)"
-                    >
-            <ColorAnimation Storyboard.TargetName="TB_Hours"   From="Black" To="Red" Duration="0:0:0.5" AutoReverse="True"/>
-            <ColorAnimation Storyboard.TargetName="TB_Colon1"  From="Black" To="Red" Duration="0:0:0.5" AutoReverse="True"/>
-            <ColorAnimation Storyboard.TargetName="TB_Minutes" From="Black" To="Red" Duration="0:0:0.5" AutoReverse="True"/>
-            <ColorAnimation Storyboard.TargetName="TB_Colon2"  From="Black" To="Red" Duration="0:0:0.5" AutoReverse="True"/>
-            <ColorAnimation Storyboard.TargetName="TB_Seconds" From="Black" To="Red" Duration="0:0:0.5" AutoReverse="True"/>
-        </Storyboard>
-    </Page.Resources>
-    
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <Viewbox Margin="60">
-            <TextBlock Text="ZBÝVÁ"
-                       FontWeight="SemiBold"
-                       />
-        </Viewbox>
-        
-        <Viewbox Margin="30,0"
-                 Grid.Row="1"
-                 >
-            <StackPanel Orientation="Horizontal">
-                <StackPanel.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="FontWeight" Value="SemiBold"/>
-                    </Style>
-                </StackPanel.Resources>
-
-                <TextBlock x:Name="TB_Hours" Text="00" Width="17"/>
-                <TextBlock x:Name="TB_Colon1" Text=":" FontSize="14"/>
-                <TextBlock x:Name="TB_Minutes" Text="00" Width="17"/>
-                <TextBlock x:Name="TB_Colon2" Text=":" FontSize="14"/>
-                <TextBlock x:Name="TB_Seconds" Text="00" Width="17"/>
-            </StackPanel>
-        </Viewbox>
-
-        <Image Source="Assets/FF Logo.jpg"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Stretch"
-               Grid.Row="2"
-               />
-
-        <Border x:Name="Bo_InitializationUI"
-                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                RequestedTheme="Dark"
-                Grid.RowSpan="3"
+﻿<local:PageBase x:Class="FF_Casovac.MainPage"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:local="using:FF_Casovac"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                mc:Ignorable="d"
                 >
-            <StackPanel VerticalAlignment="Center">
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Margin="{StaticResource PanelGapMargin}"
-                            >
-                    <TimePicker x:Name="TP_Input" Time="0"/>
-                
-                    <Button Content="SPUSTIT"
-                            FontWeight="SemiBold"
-                            Margin="10,0,0,0"
-                            Click="Start"
+    <Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel VerticalAlignment="Center"
+                    MaxWidth="{StaticResource ContentMaxWidth}"
+                    >
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Margin="{StaticResource PanelGapMargin}"
+                        >
+                <TimePicker x:Name="TP_Time"
+                            Time="{x:Bind AppData.ActualTimeSpan, Mode=OneWay}"
                             />
-                </StackPanel>
+                
+                <Button Content="SPUSTIT"
+                        FontWeight="SemiBold"
+                        Margin="10,0,0,0"
+                        Click="Start"
+                        />
+            </StackPanel>
 
-                <TextBlock TextAlignment="Center"
-                           HorizontalAlignment="Center"
-                           Style="{StaticResource DescriptionTextBlock}"
-                           Margin="{StaticResource DescriptionGapBottomMargin}"
-                           >
-                    Po spuštění časovače se aplikace přepne do režimu celé obrazovky
-                    <LineBreak/>
-                    Pro manuální přepnutí režimu celé obrazovky použijte klávesu F11
-                </TextBlock>
+            <StackPanel HorizontalAlignment="Center">
+                <CheckBox Content="Po spuštění přepnout do režimu celé obrazovky"
+                          IsChecked="{x:Bind AppData.IsAutomaticFullScreenModeEnabled, Mode=TwoWay}"
+                          />
+                <CheckBox Content="Povolit zastavení časovače tlačítkem zpět"
+                          IsChecked="{x:Bind AppData.IsTimerStoppingEnabled, Mode=TwoWay}"
+                          />
 
-                <CheckBox x:Name="CB_EnableTimerStopping"
-                          Content="Povolit zastavení časovače tlačítkem zpět"
-                          IsChecked="True"
-                          HorizontalAlignment="Center"
+                <CheckBox Content="Povolit zvuky"
+                          IsChecked="{x:Bind AppData.IsSoundEnabled, Mode=TwoWay}"
                           Margin="{StaticResource CheckBoxGapMargin}"
                           />
-                
-                <Button Content="O APLIKACI"
-                        HorizontalAlignment="Center"
-                        FontWeight="SemiBold"
-                        Margin="{StaticResource DescriptionGapBottomMargin}"
-                        Click="ShowAboutAppDialogAsync"
-                        />
-
+                    
                 <TextBlock TextAlignment="Center"
                            HorizontalAlignment="Center"
                            Style="{StaticResource DescriptionTextBlock}"
                            >
-                    &#x00A9; 2017 Marian Dolinský
+                    Pro manuální přepnutí režimu celé obrazovky použijte klávesu F11
                 </TextBlock>
             </StackPanel>
-        </Border>
-    </Grid>
-</Page>
+
+            <TextBlock TextAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Style="{StaticResource DescriptionTextBlock}"
+                       >
+                &#x00A9; 2017 Marian Dolinský |
+                <Hyperlink UnderlineStyle="None" Click="ShowAboutAppDialogAsync">O aplikaci</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+    </Border>
+</local:PageBase>
