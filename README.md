@@ -1,4 +1,4 @@
-﻿# FF Časovač
+# FF Časovač
 
 Jednoduchý časovač vytvořený pro Veletrh fiktivních firem v Brně.
 
