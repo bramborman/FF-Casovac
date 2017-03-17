@@ -2,6 +2,7 @@
 using System.Linq;
 using UWPHelper.UI;
 using UWPHelper.Utilities;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
@@ -70,6 +71,7 @@ namespace FF_Casovac
             base.OnNavigatedTo(e);
             cancelGoingBack = true;
             DisplayRequestHelper.IsActive = true;
+            BarsHelper.Current.RequestedThemeGetter = () => ElementTheme.Light;
 
             if (AppData.IsAutomaticFullScreenModeEnabled == true)
             {
@@ -81,6 +83,7 @@ namespace FF_Casovac
 
         protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
+            BarsHelper.Current.RequestedThemeGetter = () => ElementTheme.Dark;
             applicationView.ExitFullScreenMode();
 
             if (cancelGoingBack)
@@ -94,7 +97,7 @@ namespace FF_Casovac
                     PrimaryButtonText   = "Ano",
                     SecondaryButtonText = "Ne"
                 };
-
+                
                 if (await dialog.ShowAsync() == ContentDialogResult.Primary)
                 {
                     cancelGoingBack = false;
@@ -102,12 +105,14 @@ namespace FF_Casovac
                 }
                 else
                 {
+                    BarsHelper.Current.RequestedThemeGetter = () => ElementTheme.Light;
+
                     if (AppData.IsAutomaticFullScreenModeEnabled == true)
                     {
                         applicationView.TryEnterFullScreenMode();
                     }
                 }
-                
+
                 return;
             }
 

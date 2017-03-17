@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using UWPHelper.UI;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
@@ -87,6 +88,8 @@ namespace FF_Casovac
 
                 Window.Current.Content = rootFrame;
                 ApplicationView.GetForCurrentView().FullScreenSystemOverlayMode = FullScreenSystemOverlayMode.Minimal;
+
+                await BarsHelper.Current.InitializeForCurrentViewAsync();
             }
 
             LaunchActivatedEventArgs launchArgs = args as LaunchActivatedEventArgs;
