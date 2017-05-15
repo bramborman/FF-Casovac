@@ -29,14 +29,17 @@
             <StackPanel HorizontalAlignment="Center">
                 <CheckBox Content="Po spuštění přepnout do režimu celé obrazovky"
                           IsChecked="{x:Bind AppData.IsAutomaticFullScreenModeEnabled, Mode=TwoWay}"
+                          ToolTipService.ToolTip="Jestliže je tato možnost povolená, přepne se aplikace po spuštění časovače do režimu celé obrazovky. Pro manuální přepnutí režimu celé obrazovky můžete dvakrát poklepat na obrazovku, nebo použít klávesu F11."
                           />
                 <CheckBox Content="Povolit zastavení časovače tlačítkem zpět"
                           IsChecked="{x:Bind AppData.IsTimerStoppingEnabled, Mode=TwoWay}"
+                          ToolTipService.ToolTip="Jestliže je tato možnost povolená, lze tlačítko zpět použít pro návrat na tuto obrazovku. V opačném případě bude aplikaci pro návrat na tuto obrazovku nutno restartovat."
                           />
 
                 <CheckBox Content="Povolit zvuky"
                           IsChecked="{x:Bind AppData.IsSoundEnabled, Mode=TwoWay}"
                           Margin="{StaticResource CheckBoxGapMargin}"
+                          ToolTipService.ToolTip="Jestliže je tato možnost povolená, bude v průběhu odpočítávání a na jeho konci přehrán gong."
                           />
                     
                 <TextBlock TextAlignment="Center"

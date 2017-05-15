@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using NotifyPropertyChangedBase;
 using System;
 using System.Threading.Tasks;
 using UWPHelper.Utilities;
@@ -6,7 +7,7 @@ using Windows.Storage;
 
 namespace FF_Casovac
 {
-    public sealed class AppData : NotifyPropertyChangedBase
+    public sealed class AppData : NotifyPropertyChanged
     {
         private const string FILE_NAME = "AppData.json";
 
@@ -45,7 +46,7 @@ namespace FF_Casovac
 
         public Task SaveAsync()
         {
-            return StorageFileHelper.SaveObjectAsync(this, FILE_NAME, ApplicationData.Current.LocalFolder);
+            return StorageHelper.SaveObjectAsync(this, FILE_NAME, ApplicationData.Current.LocalFolder);
         }
 
         public static async Task LoadAsync()
@@ -57,9 +58,9 @@ namespace FF_Casovac
             }
 #endif
 
-            var loadObjectAsyncResult = await StorageFileHelper.LoadObjectAsync<AppData>(FILE_NAME, ApplicationData.Current.LocalFolder);
-            Current                   = loadObjectAsyncResult.Object;
-            Current.ShowLoadingError  = !loadObjectAsyncResult.Success;
+            var loadResult              = await StorageHelper.LoadObjectAsync<AppData>(FILE_NAME, ApplicationData.Current.LocalFolder);
+            Current                     = loadResult.LoadedObject;
+            Current.ShowLoadingError    = loadResult.Status == StorageFileHelperStatus.Failure;
 
             Current.PropertyChanged += async (sender, e) =>
             {
