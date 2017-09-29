@@ -58,7 +58,7 @@ namespace FF_Casovac
             }
 #endif
 
-            var loadResult              = await StorageHelper.LoadObjectAsync<AppData>(FILE_NAME, ApplicationData.Current.LocalFolder);
+            StorageFileHelperLoadResult<AppData> loadResult = await StorageHelper.LoadObjectAsync<AppData>(FILE_NAME, ApplicationData.Current.LocalFolder);
             Current                     = loadResult.LoadedObject;
             Current.ShowLoadingError    = loadResult.Status == StorageFileHelperStatus.Failure;
 
